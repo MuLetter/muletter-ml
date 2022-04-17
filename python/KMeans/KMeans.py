@@ -103,9 +103,11 @@ class KMeans:
                 )
                 pattern = datas.loc[cluster_in_idxes].values
 
-                _wss = (euc(pattern, cluster_pat) ** 2).sum()
-                wss_list = np.append(wss_list, _wss / len(cluster_in_idxes))
-                wss += _wss
+                if len(pattern) != 0:
+                    _wss = (euc(pattern, cluster_pat) ** 2).sum()
+                    wss_list = np.append(
+                        wss_list, _wss / len(cluster_in_idxes))
+                    wss += _wss
             ecv = (1 - (wss / self.tss)) * 100
 
             if _early_stop_cnt != early_stop_cnt:
@@ -150,7 +152,7 @@ class KMeans:
                         break
                     else:
                         max_idx = wss_list.argmax()
-                        except_K.append(int(init_K[max_idx]))
+                        # except_K.append(int(init_K[max_idx]))
 
                         _round = 0
                         _early_stop_cnt = 0
