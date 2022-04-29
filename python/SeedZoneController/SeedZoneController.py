@@ -73,13 +73,13 @@ class SeedZoneController:
         row = features.copy()
 
         cluster_info = self.cluster_zone.find().sort("version", -1)[0]
-        norm_info = cluster_info['normInfo']
+        norm_info = cluster_info['norm']
         k_features = cluster_info['features']
         cols = row.index.values[1:]
 
         for col in cols:
-            row[col] = (row[col] - norm_info[col]['min']) / \
-                (norm_info[col]['max'] - norm_info[col]['min'])
+            row[col] = (row[col] - norm_info[col][0]) / \
+                (norm_info[col][1] - norm_info[col][0])
 
         feature = np.expand_dims(row.values[1:], axis=0)
         euc_chk = euc(feature, k_features)
